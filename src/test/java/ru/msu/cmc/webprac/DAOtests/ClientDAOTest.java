@@ -167,6 +167,7 @@ public class ClientDAOTest {
         Set<Integer> fullMatchName = Set.of(client1.getId());
         Set<Integer> fullMatchInfo = Set.of(client1.getId());
         Set<Integer> phone = Set.of(client1.getId());
+        Set<Integer> ticketPaid = Stream.of(client1, client2, client3).map(Client::getId).collect(Collectors.toSet());
 
         ClientDAO.Filter company1ClientsFilter = ClientDAO.getFilterBuilder().companyName(company1.getName()).build();
         ClientDAO.Filter company2ClientsFilter = ClientDAO.getFilterBuilder().companyName(company2.getName()).build();
@@ -195,6 +196,7 @@ public class ClientDAOTest {
                 .phoneNumber(client1.getPhoneNumber())
                 .build();
         ClientDAO.Filter phoneFilter = ClientDAO.getFilterBuilder().phoneNumber(client1.getPhoneNumber()).build();
+        ClientDAO.Filter ticketPaidFilter = ClientDAO.getFilterBuilder().ticketPaid(Boolean.TRUE).build();
 
         Map<ClientDAO.Filter, Set<Integer>> correctResults = new HashMap<>(Map.of(
                 company1ClientsFilter, company1Clients,
@@ -210,6 +212,7 @@ public class ClientDAOTest {
         ));
         correctResults.put(fullMatchInfoFilter, fullMatchInfo);
         correctResults.put(phoneFilter, phone);
+        correctResults.put(ticketPaidFilter, ticketPaid);
 
         for (Map.Entry<ClientDAO.Filter, Set<Integer>> entry : correctResults.entrySet()) {
             Set<Integer> correct = entry.getValue();

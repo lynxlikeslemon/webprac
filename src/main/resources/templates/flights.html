@@ -53,7 +53,7 @@
         <a class="btn btn-success" th:href="@{/flight_creation}" >Создать рейс</a>
     </div>
 
-    <table class="table table-hover table-bordered mt-3">
+    <table class="table table-hover table-bordered mt-3" id="flightTable">
         <thead class="thead-dark">
         <tr>
             <th scope="col"> ID</th>
@@ -93,7 +93,7 @@
             <td>
                 <span th:text="${flight.price}"></span>
             </td>
-            <td>
+            <td id="flightPageLink">
                 <a th:href="@{/flight(flightId=${flight.id})}">Страница рейса</a>
             </td>
         </tr>

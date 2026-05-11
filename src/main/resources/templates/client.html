@@ -25,7 +25,7 @@
         <span th:utext="'<b>Отчество: </b>' + ${client.fathersName} + '<br>'"></span>
         <span th:utext="'<b>Номер телефона: </b>' + ${client.phoneNumber} + '<br>'"></span>
         <span th:utext="'<b>e-mail: </b>' + ((${client.email} == null) ? '-' : ${client.email}) + '<br>'"></span>
-        <span th:utext="'<b>Адрес:</b> ' + ((${client.address} == null) ? '-' : ${client.address}) + '<br>'"></span>
+        <span th:utext="'<b>Адрес: </b>' + ((${client.address} == null) ? '-' : ${client.address}) + '<br>'"></span>
     </div>
 
     <div class="mb-3 mt-3">
@@ -36,7 +36,7 @@
         <a class="btn btn-secondary" th:href="@{/client_edit(clientId=${client.id})}" >Отредактировать данные клиента</a>
         <form class="d-inline ms-2" th:action="@{/client}" method="post">
             <input type="hidden" name="clientId" th:value="${client.id}">
-            <button type="submit" class="btn btn-danger">Удалить клиента</button>
+            <button type="submit" class="btn btn-danger" id="deleteButton">Удалить клиента</button>
         </form>
     </div>
     <div id="bonusInfo" class="mt-5">

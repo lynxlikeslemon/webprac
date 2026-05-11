@@ -35,7 +35,7 @@
     </div>
 
     <div th:if="${ticket.isPaidFor} == false" class="mb-3">
-        <a class="btn btn-success" th:href="@{/payment(ticketId=${ticket.id})}" >Оплатить билет</a>
+        <a class="btn btn-success" th:href="@{/payment(ticketId=${ticket.id})}" id="paymentButton">Оплатить билет</a>
     </div>
     <form class="" th:action="@{/ticket}" method="post">
         <input type="hidden" name="ticketId" th:value="${ticket.id}">

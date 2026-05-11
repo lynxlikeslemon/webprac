@@ -25,7 +25,7 @@
         <span th:utext="'<b>Число свободных мест: </b>' + ${flight.placesTotal - flight.placesTaken} + '/' + ${flight.placesTotal} + '<br>'"></span>
     </div>
     <div id="bookingButton" class="mb-3">
-        <a class="btn btn-success" th:href="@{/flight_booking(flightId=${flight.id})}" >Забронировать билет</a>
+        <a class="btn btn-success" th:href="@{/flight_booking(flightId=${flight.id})}" id="bookTicket">Забронировать билет</a>
     </div>
 
     <a class="btn btn-secondary" th:href="@{/flight_edit(flightId=${flight.id})}" >Отредактировать рейс</a>

@@ -31,6 +31,8 @@
             <label for="clientPhoneNumber" class="form-label"><b>Номер телефона</b></label>
             <input
                    class="form-control"
+                   type="tel"
+                   pattern="\+\d\(\d{3}\)\d{3}-\d{2}-\d{2}"
                    id="clientPhoneNumber"
                    name="clientPhoneNumber"
                    placeholder="+7(XXX)XXX-XX-XX"
@@ -39,14 +41,14 @@
         </div>
 
         <div class="col-md-4 d-flex align-items-end">
-            <button type="submit" class="btn btn-primary w-100">Найти клиента</button>
+            <button type="submit" class="btn btn-primary w-100" id="findClient">Найти клиента</button>
         </div>
     </form>
 
     <div th:if="${clientNotFound}" class="alert alert-warning mt-3" role="alert">
         <strong>Клиент не найден!</strong> Хотите зарегистрировать нового клиента?
         <a th:href="@{/client_creation(phoneNumber=${param.clientPhoneNumber})}"
-           class="btn btn-success btn-sm ms-3">
+           class="btn btn-success btn-sm ms-3" id="createClientButton">
             Создать клиента
         </a>
     </div>
@@ -57,7 +59,7 @@
             <input type="hidden" name="flightId" th:value="${flight.id}">
             <input type="hidden" name="clientId" th:value="${client.id}">
             <div class="mt-4">
-                <button type="submit" class="btn btn-success btn-lg">
+                <button type="submit" class="btn btn-success btn-lg" id="submit">
                     Забронировать билет
                 </button>
             </div>

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import ru.msu.cmc.webprac.backend.entity.Flight;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,7 @@ public interface FlightDAO extends BaseDAO<Flight, String> {
         private String arrivalCity;
         private LocalDate departureDate;
         private LocalDate arrivalDate;
-        private Double maxPrice;
+        private BigDecimal maxPrice;
         private Boolean purchasable;
 
         private String notNull(Object o) {

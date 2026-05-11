@@ -22,7 +22,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class Client implements BaseEntity<Integer> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "client_id")
     Integer id;
 

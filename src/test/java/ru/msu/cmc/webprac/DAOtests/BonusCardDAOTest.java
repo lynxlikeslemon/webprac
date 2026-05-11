@@ -10,6 +10,8 @@ import ru.msu.cmc.webprac.backend.entity.BonusCard;
 import ru.msu.cmc.webprac.backend.entity.Client;
 import ru.msu.cmc.webprac.backend.entity.Company;
 import org.hibernate.Session;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -28,8 +30,8 @@ public class BonusCardDAOTest {
 
     private final Company company = new Company("Название");
 
-    private final BonusCard bonusCard1 = new BonusCard(123, company, client1, 123.456);
-    private final BonusCard bonusCard2 = new BonusCard(456, company, client1, 789.0);
+    private final BonusCard bonusCard1 = new BonusCard(123, company, client1, BigDecimal.valueOf(123.456));
+    private final BonusCard bonusCard2 = new BonusCard(456, company, client1, BigDecimal.valueOf(789.0));
 
 
     @BeforeEach

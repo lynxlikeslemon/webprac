@@ -11,6 +11,7 @@ import ru.msu.cmc.webprac.backend.entity.Airport;
 import ru.msu.cmc.webprac.backend.entity.Company;
 import ru.msu.cmc.webprac.backend.entity.Flight;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -39,9 +40,9 @@ public class FlightDAOTest {
     private final LocalDate day2 = LocalDate.of(2027, 7, 7);
     private final LocalDate day3 = LocalDate.of(2028, 8, 8);
 
-    private final Timestamp time1 = new Timestamp(day1.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC));
-    private final Timestamp time2 = new Timestamp(day2.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC));
-    private final Timestamp time3 = new Timestamp(day3.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC));
+    private final Timestamp time1 = new Timestamp(day1.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC) * 1000);
+    private final Timestamp time2 = new Timestamp(day2.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC) * 1000);
+    private final Timestamp time3 = new Timestamp(day3.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC) * 1000);
 
     private final Flight flight1 = new Flight(
             "FL0000",
@@ -50,7 +51,7 @@ public class FlightDAOTest {
             airport1,
             time1,
             time2,
-            1024.0,
+            BigDecimal.valueOf(1024.0),
             25,
             24);
 
@@ -61,7 +62,7 @@ public class FlightDAOTest {
             airport2,
             time1,
             time2,
-            2048.0,
+            BigDecimal.valueOf(2048.0),
             25,
             25);
 
@@ -72,7 +73,7 @@ public class FlightDAOTest {
             airport1,
             time2,
             time3,
-            1024.0,
+            BigDecimal.valueOf(1024.0),
             25,
             25);
 
@@ -83,7 +84,7 @@ public class FlightDAOTest {
             airport3,
             time2,
             time3,
-            2048.0,
+            BigDecimal.valueOf(2048.0),
             25,
             23);
 
@@ -136,7 +137,7 @@ public class FlightDAOTest {
         FlightDAO.Filter departure2026FlightsFilter = FlightDAO.getFilterBuilder().departureDate(day1).build();
         FlightDAO.Filter arrival2028FlightsFilter = FlightDAO.getFilterBuilder().arrivalDate(day3).build();
         FlightDAO.Filter company1FlightsFilter = FlightDAO.getFilterBuilder().companyName(company1.getName()).build();
-        FlightDAO.Filter max1024PurchasableFlightsFilter = FlightDAO.getFilterBuilder().maxPrice(1024.0).purchasable(true).build();
+        FlightDAO.Filter max1024PurchasableFlightsFilter = FlightDAO.getFilterBuilder().maxPrice(BigDecimal.valueOf(1024.0)).purchasable(true).build();
         FlightDAO.Filter fullMatchFilter = FlightDAO.getFilterBuilder()
                 .maxPrice(flight1.getPrice())
                 .departureDate(day1)
@@ -150,7 +151,7 @@ public class FlightDAOTest {
         FlightDAO.Filter FromCity1ToCity2PurchasableMax1024FlightsFilter = FlightDAO.getFilterBuilder()
                 .departureCity("city1")
                 .arrivalCity("city2")
-                .maxPrice(1024.0)
+                .maxPrice(BigDecimal.valueOf(1024.0))
                 .purchasable(true)
                 .build();
 

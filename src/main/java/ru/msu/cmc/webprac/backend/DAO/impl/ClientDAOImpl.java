@@ -27,7 +27,7 @@ public class ClientDAOImpl extends BaseDAOImpl<Client, Integer> implements Clien
             Predicate predicate = builder.equal(queryRoot.get("phoneNumber"), phoneNumber);
             query.select(queryRoot).where(predicate);
 
-            return session.createQuery(query).getSingleResult();
+            return session.createQuery(query).getSingleResultOrNull();
         }
     }
 

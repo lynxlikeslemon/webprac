@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Редактирование рейса</title>
+</head>
+<body>
+
+<div th:replace="~{general::page-header}"></div>
+<div class="container mt-5 ms-5 mb-5" id="main-container">
+    <form class="row gy-2 gx-3 align-items-center" th:action="@{/flight_edit}" method="post">
+        <input type="hidden" name="flightId" th:value="${flight.id}">
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="newFlightId">Номер рейса</label>
+            <input type="text" class="form-control ms-2" id="newFlightId" name="newFlightId" placeholder="Номер рейса" th:value="${flight.id}" required>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label for="companyId">Авиакомпания</label>
+            <select class="form-control ms-2" name="companyId" id="companyId" required>
+                <option th:each="company : ${companyList}" th:value="${company.id}" th:text="${company.name}" th:selected="${company.id == flight.company.id}"></option>
+            </select>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="departureAirportId">Аэропорт вылета</label>
+            <select class="form-control ms-2" id="departureAirportId" name="departureAirportId" required>
+                <option th:each="airport : ${airportList}" th:value="${airport.id}" th:text="${airport.id} + ' (' + ${airport.name} + ', ' + ${airport.city} + ')'" th:selected="${airport.id == flight.departureAirport.id}"></option>
+            </select>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="arrivalAirportId">Аэропорт прибытия</label>
+            <select class="form-control ms-2" id="arrivalAirportId" name="arrivalAirportId" required>
+                <option th:each="airport : ${airportList}" th:value="${airport.id}" th:text="${airport.id} + ' (' + ${airport.name} + ', ' + ${airport.city} + ')'" th:selected="${airport.id == flight.arrivalAirport.id}"></option>
+            </select>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="departureDate">Дата вылета</label>
+            <input type="date" class="form-control ms-2" id="departureDate" name="departureDate" th:value="${flight.getDepartureLocalDate}" required>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="arrivalDate">Дата прибытия</label>
+            <input type="date" class="form-control ms-2" id="arrivalDate" name="arrivalDate" th:value="${flight.getArrivalLocalDate()}" required>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="departureTime">Время вылета</label>
+            <input type="time" class="form-control ms-2" id="departureTime" name="departureTime" th:value="${flight.getDepartureLocalTime()}" required>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="arrivalTime">Время прибытия</label>
+            <input type="time" class="form-control ms-2" id="arrivalTime" name="arrivalTime" th:value="${flight.getArrivalLocalTime()}" required>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="price">Стоимость билета</label>
+            <input type="number" step="0.01" min="0" class="form-control ms-2" id="price" name="price" placeholder="Стоимость билета" th:value="${flight.price}" required>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="places">Число мест</label>
+            <input type="number" step="1" min="1" class="form-control ms-2" id="places" name="places" placeholder="Число мест" th:value="${flight.placesTotal}" required>
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</div>
+</body>
+</html>

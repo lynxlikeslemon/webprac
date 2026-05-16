@@ -3,6 +3,8 @@ package ru.msu.cmc.webprac.backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -15,7 +17,7 @@ public class BonusCard implements BaseEntity<Integer> {
     @NonNull
     Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "company_id")
     @NonNull
     Company company;
@@ -27,5 +29,5 @@ public class BonusCard implements BaseEntity<Integer> {
 
     @Column(nullable = false, name = "amount")
     @NonNull
-    Double amount;
+    BigDecimal amount;
 }

@@ -9,6 +9,7 @@ import org.springframework.test.context.TestPropertySource;
 import ru.msu.cmc.webprac.backend.DAO.TicketDAO;
 import ru.msu.cmc.webprac.backend.entity.*;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -43,9 +44,9 @@ public class TicketDAOTest {
     private final LocalDate day2 = LocalDate.of(2027, 7, 7);
     private final LocalDate day3 = LocalDate.of(2028, 8, 8);
 
-    private final Timestamp time1 = new Timestamp(day1.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC));
-    private final Timestamp time2 = new Timestamp(day2.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC));
-    private final Timestamp time3 = new Timestamp(day3.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC));
+    private final Timestamp time1 = new Timestamp(day1.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC) * 1000);
+    private final Timestamp time2 = new Timestamp(day2.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC) * 1000);
+    private final Timestamp time3 = new Timestamp(day3.toEpochSecond(LocalTime.NOON, ZoneOffset.UTC) * 1000);
 
 
     private final Flight flight1 = new Flight(
@@ -55,7 +56,7 @@ public class TicketDAOTest {
             airport1,
             time1,
             time2,
-            1024.0,
+            BigDecimal.valueOf(1024.0),
             25,
             24);
 
@@ -66,7 +67,7 @@ public class TicketDAOTest {
             airport2,
             time1,
             time2,
-            2048.0,
+            BigDecimal.valueOf(2048.0),
             25,
             25);
 
@@ -77,7 +78,7 @@ public class TicketDAOTest {
             airport3,
             time2,
             time3,
-            1024.0,
+            BigDecimal.valueOf(1024.0),
             25,
             25);
 

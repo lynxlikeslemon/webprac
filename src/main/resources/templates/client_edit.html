@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Редактирование клиента</title>
+</head>
+<body>
+
+<div th:replace="~{general::page-header}"></div>
+<div class="container mt-5 ms-5" id="main-container">
+    <form class="row gy-2 gx-3 align-items-center" th:action="@{/client_edit}" method="post">
+        <input type="hidden" name="clientId" th:value="${client.id}">
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="firstName">Имя</label>
+            <input type="text" class="form-control ms-2" id="firstName" name="firstName" placeholder="Имя" th:value="${client.firstName}" required>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="lastName">Фамилия</label>
+            <input type="text" class="form-control ms-2" id="lastName" name="lastName" placeholder="Фамилия" th:value="${client.lastName}" required>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="fathersName">Отчество</label>
+            <input type="text" class="form-control ms-2" id="fathersName" name="fathersName" placeholder="Отчество" th:value="${client.fathersName}" required>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="phoneNumber">Номер телефона</label>
+            <input type="tel" pattern="\+\d\(\d{3}\)\d{3}-\d{2}-\d{2}" class="form-control ms-2" id="phoneNumber" name="phoneNumber" placeholder="+X(XXX)XXX-XX-XX" th:value="${client.phoneNumber}" required>
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="email">e-mail</label>
+            <input type="email" class="form-control ms-2" id="email" name="email" placeholder="email@example.com" th:value="${client.email}">
+        </div>
+        <div class="input-group mb-3 align-items-center">
+            <label class="sr-only" for="address">Адрес проживания</label>
+            <input type="text" class="form-control ms-2" id="address" name="address" placeholder="Адрес проживания" th:value="${client.address}">
+        </div>
+
+        <h4 class="mt-4">Бонусные карты</h4>
+
+        <div id="bonusCardContainer">
+            <div class="bonus-card-item card mb-3 p-3" th:each="bonus : ${bonusList}">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Номер карты</label>
+                        <input type="text" class="form-control"
+                               name="bonusIds" placeholder="Номер карты" th:value="${bonus.id}" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Компания</label>
+                        <select class="form-control" name="bonusCompanies">
+                            <option th:each="company : ${companyList}" th:value="${company.id}" th:text="${company.name}"
+                                th:selected="${company.id == bonus.company.id}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Число бонусов</label>
+                        <input class="form-control"
+                               name="bonusAmounts" value="0" th:value="${bonus.amount}">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-danger remove-card">Удалить карту</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" id="addBonusCard" class="btn btn-secondary mb-3">
+            Добавить бонусную карту
+        </button>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+    </form>
+    <script th:src="@{/js/client_bonus_form.js}" defer></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <div class="bonus-card-item card mb-3 p-3" id="bonusCardTemplate" style="display: none;">
+        <div class="row">
+            <div class="col-md-5">
+                <label for="bonusIds">Номер карты </label>
+                <input type="text" class="form-control"
+                       name="bonusIds" placeholder="Номер карты" required id="bonusIds">
+            </div>
+            <div class="col-md-3">
+                <label for="bonusCompanies">Компания</label>
+                <select class="form-control" name="bonusCompanies" id="bonusCompanies">
+                    <option th:each="company : ${companyList}" th:value="${company.id}" th:text="${company.name}"></option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="bonusAmounts">Число бонусов </label>
+                <input class="form-control"
+                       name="bonusAmounts" value="0" id="bonusAmounts" required>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="button" class="btn btn-danger remove-card">Удалить карту</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

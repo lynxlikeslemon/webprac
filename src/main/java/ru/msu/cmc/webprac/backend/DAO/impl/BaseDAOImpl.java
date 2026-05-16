@@ -108,6 +108,6 @@ public abstract class BaseDAOImpl<T extends BaseEntity<IDType>, IDType> implemen
         LocalTime endOfDay = LocalTime.MAX;
         long startOfDate = date.toEpochSecond(startOfDay, ZoneOffset.UTC);
         long endOfDate = date.toEpochSecond(endOfDay, ZoneOffset.UTC);
-        return builder.between(path, new Timestamp(startOfDate), new Timestamp(endOfDate));
+        return builder.between(path, new Timestamp(startOfDate * 1000), new Timestamp(endOfDate * 1000));
     }
 }

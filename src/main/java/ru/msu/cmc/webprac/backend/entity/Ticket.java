@@ -3,7 +3,10 @@ package ru.msu.cmc.webprac.backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -18,26 +21,26 @@ public class Ticket implements BaseEntity<Integer> {
     @Column(nullable = false, name = "ticket_id")
     Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "flight_id")
     @NonNull
     Flight flight;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
     @NonNull
     Client client;
 
     @Column(nullable = false, name = "price")
     @NonNull
-    Double price;
+    BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bonus_card_used")
     BonusCard bonusCardUsed;
 
     @Column(name = "bonus_amount_used")
-    Double bonusAmountUsed;
+    BigDecimal bonusAmountUsed;
 
     @Column(nullable = false, name = "is_paid_for")
     @NonNull
@@ -49,4 +52,25 @@ public class Ticket implements BaseEntity<Integer> {
 
     @Column(name = "payment_time")
     Timestamp paymentTime;
+
+    public LocalDate getBookingLocalDate() {
+        return bookingTime.toLocalDateTime().toLocalDate();
+    }
+
+    public LocalDate getPaymentLocalDate() {
+        if (paymentTime == null) {
+            return null;
+        }
+        return paymentTime.toLocalDateTime().toLocalDate();
+    }
+
+    public LocalTime getBookingLocalTime() {
+        return bookingTime.toLocalDateTime().toLocalTime();
+    }
+    public LocalTime getPaymentLocalTime() {
+        if (paymentTime == null) {
+            return null;
+        }
+        return paymentTime.toLocalDateTime().toLocalTime();
+    }
 }

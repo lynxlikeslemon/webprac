@@ -9,6 +9,7 @@ import org.springframework.test.context.TestPropertySource;
 import ru.msu.cmc.webprac.backend.DAO.ClientDAO;
 import ru.msu.cmc.webprac.backend.entity.*;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -53,7 +54,7 @@ public class ClientDAOTest {
             airport1,
             time1,
             time2,
-            1024.0,
+            BigDecimal.valueOf(1024.0),
             25,
             24);
 
@@ -64,7 +65,7 @@ public class ClientDAOTest {
             airport2,
             time1,
             time2,
-            2048.0,
+            BigDecimal.valueOf(2048.0),
             25,
             25);
 

@@ -11,7 +11,7 @@
 
 <div th:replace="~{general::page-header}"></div>
 <div class="container mt-5 ms-5 mb-5" id="main-container">
-    <form class="row gy-2 gx-3 align-items-center" th:action="@{/flight_edit}" method="post">
+    <form class="row gy-2 gx-3 align-items-center" th:action="@{/flight_edit}" method="post" id="flightEditForm">
         <input type="hidden" name="flightId" th:value="${flight.id}">
         <div class="input-group mb-3 align-items-center">
             <label class="sr-only" for="newFlightId">Номер рейса</label>
@@ -61,7 +61,7 @@
         </div>
 
         <div class="col-auto">
-            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <button type="submit" class="btn btn-primary" id="flightSaveButton">Сохранить</button>
         </div>
     </form>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

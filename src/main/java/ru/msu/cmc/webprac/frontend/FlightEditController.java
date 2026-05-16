@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.msu.cmc.webprac.backend.DAO.AirportDAO;
 import ru.msu.cmc.webprac.backend.DAO.CompanyDAO;
 import ru.msu.cmc.webprac.backend.DAO.FlightDAO;
+import ru.msu.cmc.webprac.backend.DAO.TicketDAO;
 import ru.msu.cmc.webprac.backend.DAO.impl.AirportDAOImpl;
 import ru.msu.cmc.webprac.backend.DAO.impl.CompanyDAOImpl;
 import ru.msu.cmc.webprac.backend.DAO.impl.FlightDAOImpl;
+import ru.msu.cmc.webprac.backend.DAO.impl.TicketDAOImpl;
 import ru.msu.cmc.webprac.backend.entity.Airport;
 import ru.msu.cmc.webprac.backend.entity.Company;
 import ru.msu.cmc.webprac.backend.entity.Flight;
+import ru.msu.cmc.webprac.backend.entity.Ticket;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -33,6 +36,8 @@ public class FlightEditController {
     private final CompanyDAO companyDAO = new CompanyDAOImpl();
     @Autowired
     private final AirportDAO airportDAO = new AirportDAOImpl();
+    @Autowired
+    private final TicketDAO ticketDAO = new TicketDAOImpl();
 
     @PostMapping("flight_creation")
     public String createFlight(@RequestParam String flightId,
@@ -102,12 +107,16 @@ public class FlightEditController {
             return "error";
         }
 
+        Flight newFlight = flight;
+
         if (!newFlightId.equals(flightId)) {
-            Flight newFlight = flightDAO.getById(flightId);
+            newFlight = flightDAO.getById(newFlightId);
 
             if (newFlight != null) {
                 return "error";
             }
+
+            newFlight = new Flight();
         }
 
         Company company = companyDAO.getById(companyId);
@@ -118,26 +127,39 @@ public class FlightEditController {
             return "error";
         }
 
-        flight.setId(flightId);
-        flight.setCompany(company);
-        flight.setArrivalAirport(arrivalAirport);
-        flight.setDepartureAirport(departureAirport);
+        newFlight.setId(newFlightId);
+        newFlight.setCompany(company);
+        newFlight.setArrivalAirport(arrivalAirport);
+        newFlight.setDepartureAirport(departureAirport);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate departureDateParsed = LocalDate.parse(departureDate, formatter);
         LocalTime departureTimeParsed = LocalTime.parse(departureTime);
-        flight.setDepartureTime(Timestamp.valueOf(LocalDateTime.of(departureDateParsed, departureTimeParsed)));
+        newFlight.setDepartureTime(Timestamp.valueOf(LocalDateTime.of(departureDateParsed, departureTimeParsed)));
 
         LocalDate arrivalDateParsed = LocalDate.parse(arrivalDate, formatter);
         LocalTime arrivalTimeParsed = LocalTime.parse(arrivalTime);
-        flight.setArrivalTime(Timestamp.valueOf(LocalDateTime.of(arrivalDateParsed, arrivalTimeParsed)));
+        newFlight.setArrivalTime(Timestamp.valueOf(LocalDateTime.of(arrivalDateParsed, arrivalTimeParsed)));
 
-        flight.setPrice(price);
-        flight.setPlacesTotal(places);
+        newFlight.setPrice(price);
+        newFlight.setPlacesTotal(places);
+        newFlight.setPlacesTaken(flight.getPlacesTaken());
 
-        flightDAO.update(flight);
+        if (!flightId.equals(newFlightId)) {
+            Flight finalNewFlight = newFlight;
+            ticketDAO.getAll().stream()
+                    .filter(ticket -> ticket.getFlight().equals(flight))
+                    .forEach(ticket -> {
+                        ticket.setFlight(finalNewFlight);
+                        ticketDAO.update(ticket);
+                    });
+            flightDAO.save(finalNewFlight);
+            flightDAO.delete(flight);
+        } else {
+            flightDAO.update(newFlight);
+        }
 
-        return "redirect:/flight?flightId=" + flightId;
+        return "redirect:/flight?flightId=" + newFlightId;
     }
 
     @GetMapping("flight_creation")

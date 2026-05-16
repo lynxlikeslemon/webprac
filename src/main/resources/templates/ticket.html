@@ -19,14 +19,14 @@
             <span th:utext="'<b>Место прибытия: </b>' + ${ticket.flight.arrivalAirport.city} + ' (' + ${ticket.flight.arrivalAirport.id} + ')'"></span><br>
             <span th:utext="'<b>Время отправления: </b>' + ${ticket.flight.getDepartureLocalDate()} + ' ' + ${ticket.flight.getDepartureLocalTime()}"></span><br>
             <span th:utext="'<b>Время прибытия: </b>' + ${ticket.flight.getArrivalLocalDate()} + ' ' + ${ticket.flight.getArrivalLocalTime()}"></span><br>
-            <a th:href="@{/flight(flightId=${ticket.flight.id})}">Страница рейса</a>
+            <a th:href="@{/flight(flightId=${ticket.flight.id})}" id="flightPageLink">Страница рейса</a>
         </div>
 
         <h4 th:text="'Клиент #' + ${ticket.client.id}"></h4>
         <div id="clientInfo" class="mb-3">
             <span th:utext="'<b>ФИО: </b>' + ${ticket.client.lastName} + ' ' + ${ticket.client.firstName} + ' ' + ${ticket.client.fathersName}"></span><br>
             <span th:utext="'<b>Номер телефона: </b>' + ${ticket.client.phoneNumber}"></span><br>
-            <a th:href="@{/client(clientId=${ticket.client.id})}">Страница клиента</a>
+            <a th:href="@{/client(clientId=${ticket.client.id})}" id="clientPageLink">Страница клиента</a>
         </div>
         <div id="paymentInfo" class="mb-3">
             <span th:utext="'<b>Время бронирования: </b>' + ${ticket.getBookingLocalDate()} + ' ' + ${ticket.getBookingLocalTime()}"></span><br>

@@ -13,22 +13,22 @@
 <div class="container mt-5 ms-5 mb-5" id="main-container">
     <div id="flightInfo" class="mb-3">
         <h4 th:text="'Рейс номер ' + ${flight.id}"></h4>
-        <span th:utext="'<b>Авиакомпания: </b>' + ${flight.company.name} + '<br>'"></span>
-        <span th:utext="'<b>Аэропорт отправления: </b>' + ${flight.departureAirport.name} + '<br>'"></span>
-        <span th:utext="'<b>Аэропорт прибытия: </b>' + ${flight.arrivalAirport.name} + '<br>'"></span>
-        <span th:utext="'<b>Дата отправления: </b>' + ${flight.getDepartureLocalDate()} + '<br>'"></span>
-        <span th:utext="'<b>Дата прибытия: </b>' + ${flight.getArrivalLocalDate()} + '<br>'"></span>
-        <span th:utext="'<b>Время отправления: </b>' + ${flight.getDepartureLocalTime()} + '<br>'"></span>
-        <span th:utext="'<b>Время прибытия: </b>' + ${flight.getArrivalLocalTime()} + '<br>'"></span>
-        <span th:utext="'<b>Время в пути: </b>' + ${flight.getDuration()} + '<br>'"></span>
-        <span th:utext="'<b>Стоимость билета: </b>' + ${flight.price} + '<br>'"></span>
-        <span th:utext="'<b>Число свободных мест: </b>' + ${flight.placesTotal - flight.placesTaken} + '/' + ${flight.placesTotal} + '<br>'"></span>
+        <span th:utext="'<b>Авиакомпания: </b>' + ${flight.company.name} + '<br>'" id="company"></span>
+        <span th:utext="'<b>Аэропорт отправления: </b>' + ${flight.departureAirport.name} + '<br>'" id="departureAirport"></span>
+        <span th:utext="'<b>Аэропорт прибытия: </b>' + ${flight.arrivalAirport.name} + '<br>'" id="arrivalAirport"></span>
+        <span th:utext="'<b>Дата отправления: </b>' + ${flight.getDepartureLocalDate()} + '<br>'" id="departureDate"></span>
+        <span th:utext="'<b>Дата прибытия: </b>' + ${flight.getArrivalLocalDate()} + '<br>'" id="arrivalDate"></span>
+        <span th:utext="'<b>Время отправления: </b>' + ${flight.getDepartureLocalTime()} + '<br>'" id="departureTime"></span>
+        <span th:utext="'<b>Время прибытия: </b>' + ${flight.getArrivalLocalTime()} + '<br>'" id="arrivalTime"></span>
+        <span th:utext="'<b>Время в пути: </b>' + ${flight.getDuration()} + '<br>'" id="flightTime"></span>
+        <span th:utext="'<b>Стоимость билета: </b>' + ${flight.price} + '<br>'" id="price"></span>
+        <span th:utext="'<b>Число свободных мест: </b>' + ${flight.placesTotal - flight.placesTaken} + '/' + ${flight.placesTotal} + '<br>'" id="freePlaces"></span>
     </div>
     <div id="bookingButton" class="mb-3">
         <a class="btn btn-success" th:href="@{/flight_booking(flightId=${flight.id})}" id="bookTicket">Забронировать билет</a>
     </div>
 
-    <a class="btn btn-secondary" th:href="@{/flight_edit(flightId=${flight.id})}" >Отредактировать рейс</a>
+    <a class="btn btn-secondary" th:href="@{/flight_edit(flightId=${flight.id})}" id="editFlightButton">Отредактировать рейс</a>
     <a class="btn btn-secondary ms-2" th:href="@{/clients(flightId=${flight.id})}" >Просмотр пассажиров</a>
 
     <form class="mt-3" th:action="@{/flight}" method="post">

@@ -44,7 +44,7 @@
                     <span th:text="${bonus.amount}"></span>
                 </td>
                 <td>
-                    <a th:href="@{/payment(bonusId=${bonus.id}, ticketId=${ticket.id})}"
+                    <a th:href="@{/payment(bonusId=${bonus.id}, ticketId=${ticket.id})}" id="selectBonusButton"
                        class="btn btn-primary btn-sm">
                         Выбрать
                     </a>
@@ -54,7 +54,7 @@
         </table>
     </div>
 
-    <div th:if="(${bonus} != null)">
+    <div th:if="(${bonus} != null)" id="bonusActive">
         <form th:action="@{/payment}" method="get">
             <input type="hidden" name="bonusId" th:value="${bonus.id}">
             <input type="hidden" name="ticketId" th:value="${ticket.id}">
@@ -63,19 +63,19 @@
                 <input type="number" min="0" th:max="${bonus.amount}" th:value="${bonusAmount}" name="bonusAmount" class="form-control" id="bonusAmount" required>
             </div>
             <small class="text-muted">Доступно бонусов: <span th:text="${bonus.amount}"></span></small>
-            <button type="submit" class="btn btn-primary">Подтвердить</button>
+            <button type="submit" class="btn btn-primary" id="confirmBonus">Подтвердить</button>
         </form>
     </div>
 
     <div id="price">
         <h4>
-            <span th:text="'Итоговая стоимость билета: ' + (${ticket.price} - ((${bonusAmount} == null) ? 0 : ${bonusAmount}))"></span>
+            <span th:text="'Итоговая стоимость билета: ' + (${ticket.price} - ((${bonusAmount} == null) ? 0 : ${bonusAmount}))" id="totalPrice"></span>
         </h4>
         <form th:action="@{/payment}" method="post">
             <input type="hidden" name="bonusId" th:if="${bonus} != null" th:value="${bonus.id}">
             <input type="hidden" name="ticketId" th:value="${ticket.id}">
             <input type="hidden" name="bonusAmount" th:if="${bonusAmount} != null" th:value="${bonusAmount}">
-            <button type="submit" class="btn btn-primary">Оплатить</button>
+            <button type="submit" class="btn btn-primary" id="submitPayment">Оплатить</button>
         </form>
 
     </div>

@@ -17,6 +17,7 @@ import ru.msu.cmc.webprac.backend.entity.Client;
 import ru.msu.cmc.webprac.backend.entity.Company;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -58,8 +59,7 @@ public class ClientEditController {
         client.setEmail(email);
         client.setAddress(address);
 
-        clientDAO.save(client);
-        client = clientDAO.getByPhoneNumber(phoneNumber);
+        List<BonusCard> newBonusCards = new ArrayList<>();
 
         if (bonusIds != null) {
             for (int i = 0; i < bonusIds.size(); i++) {
@@ -78,9 +78,12 @@ public class ClientEditController {
                 }
 
                 bonusCard = new BonusCard(id, company, client, amount);
-                bonusCardDAO.save(bonusCard);
+                newBonusCards.add(bonusCard);
             }
         }
+
+        clientDAO.save(client);
+        bonusCardDAO.saveAll(newBonusCards);
 
         return "redirect:/client?clientId=" + client.getId();
     }
@@ -130,9 +133,10 @@ public class ClientEditController {
         client.setEmail(email);
         client.setAddress(address);
 
-        clientDAO.update(client);
-
         Set<Integer> oldBonusCards = bonusCardDAO.getBonusCardsByClientId(clientId).stream().map(BonusCard::getId).collect(Collectors.toSet());
+
+        List<BonusCard> newBonusCards = new ArrayList<>();
+        List<BonusCard> toBeUpdated = new ArrayList<>();
 
         if (bonusIds != null) {
             for (int i = 0; i < bonusIds.size(); i++) {
@@ -148,7 +152,7 @@ public class ClientEditController {
                     bonusCard.setAmount(bonusCard.getAmount());
                     bonusCard.setClient(client);
                     bonusCard.setCompany(company);
-                    bonusCardDAO.update(bonusCard);
+                    toBeUpdated.add(bonusCard);
                     oldBonusCards.remove(id);
                 } else {
                     BigDecimal amount = bonusAmounts.get(i);
@@ -156,10 +160,14 @@ public class ClientEditController {
                     if (bonusCard == null) {
                         return "error";
                     }
-                    bonusCardDAO.save(bonusCard);
+                    newBonusCards.add(bonusCard);
                 }
             }
         }
+
+        clientDAO.update(client);
+        bonusCardDAO.saveAll(newBonusCards);
+        toBeUpdated.forEach(bonusCardDAO::update);
 
         for (Integer bonusId : oldBonusCards) {
             BonusCard bonusCard = bonusCardDAO.getById(bonusId);
